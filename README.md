@@ -28,4 +28,5 @@ Note: This has only been tested on Node v6.11.4 but uses babel to get async/awai
 * `cp config.json-SAMPLE config.json`
 * Edit `config.json` and fill out your settings
 * `npm start`
+* Setup a webhook (type: Application/json) in GitHub and point it to `http://{yourserver}:{your config defined port}/git.json`
 
