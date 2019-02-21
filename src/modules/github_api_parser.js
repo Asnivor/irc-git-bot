@@ -516,7 +516,7 @@ var gh_milestone = async (req) => {
         case "closed":
             var build02 = util.format("%s - %s",
                 build01,
-                req.body["milestone"]["html_url"]);
+                await gitioLookup(req.body["milestone"]["html_url"]));
             res.push(build02);
             break;
         case "deleted":
