@@ -760,8 +760,9 @@ const gitioLookup = (inUrl) => {
                 resolve(result);
             }
             else {
-                // return original
-                resolve(inUrl);
+                console.log("gitio ERR: " + err);
+                // try to resolve again (in case gitio-node has collided somehow
+                resolve(gitioLookup(inUrl));
             }
         })
     })

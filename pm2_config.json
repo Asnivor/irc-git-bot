@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name"        : "ircgitbot",
+    "script"      : "npm",
+    "args"        : "start",
+    "exec_mode"   : "fork"
+  }]
+}
