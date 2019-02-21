@@ -47,6 +47,7 @@ client.addListener("kick", function(channel, person, by, message) {
 
         client.join(channel, function(cback) {
             logger.info(cback + " rejoined " + channel);
+            client.say(channel, "OUCH!");
         });
     }
 });
