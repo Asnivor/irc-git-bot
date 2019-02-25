@@ -1,5 +1,6 @@
 import util from 'util';
 import gitio from 'node-gitio';
+import config from './configuration';
 
 // functions that parse webhook payloads return the necessary output array of strings
 async function handle_github(req) {
@@ -223,6 +224,8 @@ var gh_commit_comment = async (req) => {
     var comment_type = "commented on";
     if (action == "edited") {
         comment_type = "edited a comment on"
+
+        if (config.get('ignore_edits') == true) return;
     }
     else if (action == "deleted") {
         comment_type = "deleted a comment on"
@@ -251,6 +254,8 @@ var gh_issue_comment = async (req) => {
     var comment_html_url = await gitioLookup(req.body["comment"]["html_url"]);
     var comment_type = "commented on";
     if (action == "edited") {
+        if (config.get('ignore_edits') == true) return;
+
         comment_type = "edited a comment on"
     }
     else if (action == "deleted") {
@@ -297,6 +302,8 @@ var gh_pr_review_comment = async (req) => {
     var comment_type = "commented on";
     if (action == "edited") {
         comment_type = "edited a comment on"
+
+        if (config.get('ignore_edits') == true) return;
     }
     else if (action == "deleted") {
         comment_type = "deleted a comment on"
@@ -407,6 +414,9 @@ var gh_issues = async (req) => {
         case "closed":
         case "reopened":
         case "demilestoned":
+
+            if (config.get('ignore_edits') == true && action == "edited") return;
+
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);
@@ -482,6 +492,8 @@ var gh_member = async (req) => {
                 html_url);
             break
         case "edited":
+            if (config.get('ignore_edits') == true) return;
+
             var build02 = util.format("%s in the repo - %s",
                 build01,
                 html_url);
@@ -514,6 +526,9 @@ var gh_milestone = async (req) => {
         case "edited":
         case "created":
         case "closed":
+
+            if (config.get('ignore_edits') == true && action == "edited") return;
+
             var build02 = util.format("%s - %s",
                 build01,
                 await gitioLookup(req.body["milestone"]["html_url"]));
@@ -563,6 +578,8 @@ var gh_pull_request = async(req) => {
         case "opened":
         case "edited":
         case "reopened":
+            if (config.get('ignore_edits') == true && action == "edited") return;
+
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);

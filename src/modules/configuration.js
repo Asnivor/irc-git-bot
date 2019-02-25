@@ -13,7 +13,10 @@ function Config() {
         bot_real: "Git Hook Bot",
 
         // git listen port
-        port: 4050
+        port: 4050,
+
+        // will not post any edits
+        ignore_edits: true
     });
 }
 

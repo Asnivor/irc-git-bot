@@ -8,5 +8,6 @@
     "bot_user" : "YourBotUserName",
     "bot_real" : "Your Bot Real Name",
     "port" : 4021,
-    "github_secret": ""
+    "github_secret": "",
+    "ignore_edits" : true
 }
