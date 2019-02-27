@@ -14,7 +14,7 @@ Initially based on the work done in https://github.com/avail/irc-commit-bot, thi
 ### Still TODO:
 
 * Hashing stuff (so webhook origin can be verified by secret token before posting)
-* Better bot interactivity
+* Better bot interactivity 
 
 ### Install
 
