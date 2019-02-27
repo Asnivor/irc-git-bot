@@ -14,11 +14,12 @@ Initially based on the work done in https://github.com/avail/irc-commit-bot, thi
 ### Still TODO:
 
 * Hashing stuff (so webhook origin can be verified by secret token before posting)
-* Better bot interactivity
+
 
 ### Install
 
-* Fork or clone https://github.com/Asnivor/irc-git-bot
+* Fork https://github.com/Asnivor/irc-git-bot
+* Clone your fork locally
 * `npm install`
 
 Note: This has only been tested on Node v6.11.4 but uses babel to get async/await functionality.
@@ -28,5 +29,5 @@ Note: This has only been tested on Node v6.11.4 but uses babel to get async/awai
 * `cp config.json-SAMPLE config.json`
 * Edit `config.json` and fill out your settings
 * `npm start`
-* Setup a webhook (type: Application/json) in GitHub and point it to `http://{yourserver}:{your config defined port}/git.json`
-
+* Setup a webhook (type: Application/json) in the GitHub repo you wish to monitor and point it to `http://{yourserver}:{your config defined port}/git.json`
+* [Optional] Setup an 'auto-upgrade' webhook. In your fork, create a webhook (type: Application/json - 'just the push event') and point it to `http://{yourserver}:{your config defined port}/selfupdate.json`. Now whenever you make changes to the master branch of your fork (and provided you have nodemon running) the bot will automatically pull the latest changes and (if needed) restart
