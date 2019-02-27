@@ -794,6 +794,7 @@ const gitioLookup = (inUrl) => {
         })
     })
 }
+module.exports.GitioLookup = gitioLookup;
 
 
 
