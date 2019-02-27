@@ -93,13 +93,13 @@ const ParseMsg = async function(channel, msg) {
                 if (info.Tag) {
                     // tag exists for current commit
                     var tag = info.Tag;
-                    var version = "v:" + tag;
+                    var version = tag;
                 }
                 else if (info.lastTag) {
                     // a previous tag exists
                     var tag = info.lastTag;
                     var commitsSince = info.commitsSinceLastTag;
-                    var version = "v:" + tag + " (+" + commitsSince + " commits)";
+                    var version = tag + " (+" + commitsSince + " commits)";
                 }
                 else {
                     var version = "v:" + info.abbreviatedSha;
