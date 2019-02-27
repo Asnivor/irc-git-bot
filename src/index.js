@@ -14,6 +14,8 @@ logger.info("INIT github parser");
 import github_api_parser from './modules/github_api_parser';
 logger.info("INIT api handler");
 import api from './modules/api_handler';
+logger.info("INIT simple-git");
+import simpleGit from 'simple-git';
 
 const app = express();
 
@@ -48,6 +50,22 @@ app.post("/git.json", jp, function (req, res) {
     }
 });
 
+// half-assed self updater
+app.post("/selfupdate.json", jp, function (req, res) {
+
+    if (req.headers["x-github-event"]) {
+        if (req.body["ref"] == "refs/heads/master") {
+            if (req.body["repository"]["name"] == "irc-git-bot") {
+                bot.disconnect("Pulling detected changes from parent repository. BRB...")
+                simpleGit.pull();
+            }
+        }
+    }
+
+    res.sendStatus(200);
+    res.end();
+});
+
 function handleAPI(req, res) {
     logger.info("API Handler Running");
 
@@ -74,7 +92,6 @@ function handleAPI(req, res) {
         }
     }
 };
-
 
 app.listen(config.get('port'), () =>
     logger.info(config.get('bot_name') + " is listening on port " + config.get('port')),

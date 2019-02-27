@@ -1,4 +1,5 @@
 import nconf from 'nconf';
+import packageconfig from '../../package.json';
 
 function Config() {
     nconf.argv().env().file('config.json').defaults({
@@ -28,5 +29,17 @@ Config.prototype.get = function(key) {
 Config.prototype.set = function(key, value) {
     nconf.set(key, value);
 };
+
+Config.prototype.getversion = function() {
+    return packageconfig.version;
+}
+
+Config.prototype.getauthor = function() {
+    return packageconfig.author;
+}
+
+Config.prototype.getlicense = function() {
+    return packageconfig.license;
+}
 
 module.exports = new Config();
