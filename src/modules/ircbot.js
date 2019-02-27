@@ -297,7 +297,9 @@ module.exports = {
     },
 
     disconnect : function(text) {
-        client.disconnect(text);
+        client.disconnect(text, function(callback) {
+
+        });
     }
 
 }

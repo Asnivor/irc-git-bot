@@ -60,11 +60,13 @@ app.post("/selfupdate.json", jp, function (req, res) {
     if (req.headers["x-github-event"]) {
         if (req.body["ref"] == "refs/heads/master") {
             if (req.body["repository"]["name"] == "irc-git-bot") {
-                //bot.disconnect("Pulling detected changes from parent repository. BRB...")
+                
+                for (var channel of bot.Channels()) {
+                    bot.say(channel, "Auto-upgrade starting. Pulling: " + req.body["compare"]);
+                }
 
                 var p = path.normalize(__dirname + "/../");
-
-                console.log(p);
+                logger.info("Pulling changes from repo: " + req.body["compare"]);
                 simpleGit(p).pull();
             }
         }
