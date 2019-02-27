@@ -60,9 +60,9 @@ app.post("/selfupdate.json", jp, function (req, res) {
     if (req.headers["x-github-event"]) {
         if (req.body["ref"] == "refs/heads/master") {
             if (req.body["repository"]["name"] == "irc-git-bot") {
-                
+
                 for (var channel of bot.Channels()) {
-                    bot.say(channel, "Auto-upgrade starting. Pulling: " + req.body["compare"]);
+                    bot.say(channel, "*** Auto-upgrade starting - pulling: " + req.body["compare"]);
                 }
 
                 var p = path.normalize(__dirname + "/../");
