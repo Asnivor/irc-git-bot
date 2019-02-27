@@ -17,6 +17,8 @@ import api from './modules/api_handler';
 logger.info("INIT simple-git");
 import simpleGit from 'simple-git';
 
+import path from 'path';
+
 const app = express();
 
 // handle 3rd party port services
@@ -56,8 +58,12 @@ app.post("/selfupdate.json", jp, function (req, res) {
     if (req.headers["x-github-event"]) {
         if (req.body["ref"] == "refs/heads/master") {
             if (req.body["repository"]["name"] == "irc-git-bot") {
-                bot.disconnect("Pulling detected changes from parent repository. BRB...")
-                simpleGit.pull();
+                //bot.disconnect("Pulling detected changes from parent repository. BRB...")
+
+                var p = path.normalize(__dirname + "/../");
+
+                console.log(p);
+                simpleGit(p).pull();
             }
         }
     }
