@@ -41,6 +41,13 @@ client.addListener("error", function(message) {
     doJoin();
 });
 
+// CTCP version
+client.addListener("ctcp-version", function(from, to, message) {
+
+    logger.info("RECEIVED CTCP VERSION FROM " + from);
+    GetVersion(true, from);
+});
+
 // kicked listener
 client.addListener("kick", function(channel, person, by, message) {
     if (person == config.get('bot_name')) {
@@ -138,38 +145,7 @@ const MessageHandler = async function(destination, fromNick, text, message) {
         case "VERSION":
 
             logger.info("Command rcvd from " + fromNick + " - " + command + " " + commandString);
-
-            var gioRoot = await ghapi.GitioLookup("https://github.com/Asnivor/irc-git-bot");
-            var gio = await ghapi.GitioLookup("https://github.com/Asnivor/irc-git-bot/commit/" + info.sha);
-            var vTitle = "irc-git-bot (by Asnivor) " + gioRoot;
-
-            if (info.Tag) {
-                // tag exists for current commit
-                var tag = info.Tag;
-                var version = tag;
-            }
-            else if (info.lastTag) {
-                // a previous tag exists
-                var tag = info.lastTag;
-                var commitsSince = info.commitsSinceLastTag;
-                var version = tag + " (+" + commitsSince + " commits)";
-            }
-            else {
-                var version = "v:" + info.abbreviatedSha;
-            }
-
-            if (isChannel) {
-                // it is a channel
-                var outString = vTitle + " - " + version + " - commit: " + gio;
-                client.say(actualDestination, outString);
-            }
-            else {
-                // it is a user (private message)
-                client.say(actualDestination, "irc-git-bot (by Asnivor)");
-                client.say(actualDestination, "https://github.com/Asnivor/irc-git-bot");
-                client.say(actualDestination, "Version: " + version);
-                client.say(actualDestination, "Commit: " + gio);
-            }
+            GetVersion(isChannel, actualDestination);
 
             break;
 
@@ -185,6 +161,45 @@ const MessageHandler = async function(destination, fromNick, text, message) {
     }
 
 }
+
+const GetVersion = async function(isChannel, actualDestination) {
+
+    var gioRoot = await ghapi.GitioLookup("https://github.com/Asnivor/irc-git-bot");
+    var gio = await ghapi.GitioLookup("https://github.com/Asnivor/irc-git-bot/commit/" + info.sha);
+    var vTitle = "irc-git-bot (by Asnivor) " + gioRoot;
+
+    if (info.Tag) {
+        // tag exists for current commit
+        var tag = info.Tag;
+        var version = tag;
+    }
+    else if (info.lastTag) {
+        // a previous tag exists
+        var tag = info.lastTag;
+        var commitsSince = info.commitsSinceLastTag;
+        var version = tag + " (+" + commitsSince + " commits)";
+    }
+    else {
+        var version = "v:" + info.abbreviatedSha;
+    }
+
+    if (isChannel) {
+        // it is a channel
+        var outString = vTitle + " - " + version + " - commit: " + gio;
+        client.say(actualDestination, outString);
+    }
+    else {
+        // it is a user (private message)
+        client.say(actualDestination, "irc-git-bot (by Asnivor)");
+        client.say(actualDestination, "https://github.com/Asnivor/irc-git-bot");
+        client.say(actualDestination, "Version: " + version);
+        client.say(actualDestination, "Commit: " + gio);
+    }
+
+}
+
+
+
 
 // registered join
 if (config.get('bot_registered') == true) {
