@@ -15,8 +15,9 @@ function Config() {
         // git listen port
         port: 4050,
 
-        // will not post any edits
-        ignore_edits: true
+        ignore_edits: false,     // will not post any edits
+        ignore_labels : false,  // will not post any label/unlabel events
+        ignore_assigns : false  // will not post any assign/unassign events
     });
 }
 

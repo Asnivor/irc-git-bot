@@ -9,5 +9,8 @@
     "bot_real" : "Your Bot Real Name",
     "port" : 4021,
     "github_secret": "",
-    "ignore_edits" : true
+    "ignore_edits" : false,
+    "ignore_edits" : false,
+    "ignore_labels" : false,
+    "ignore_assigns" : false
 }

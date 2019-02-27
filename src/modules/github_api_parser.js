@@ -223,9 +223,8 @@ var gh_commit_comment = async (req) => {
     var comment_html_url = await gitioLookup(req.body["comment"]["html_url"]);
     var comment_type = "commented on";
     if (action == "edited") {
-        comment_type = "edited a comment on"
-
         if (config.get('ignore_edits') == true) return;
+        comment_type = "edited a comment on"
     }
     else if (action == "deleted") {
         comment_type = "deleted a comment on"
@@ -255,7 +254,6 @@ var gh_issue_comment = async (req) => {
     var comment_type = "commented on";
     if (action == "edited") {
         if (config.get('ignore_edits') == true) return;
-
         comment_type = "edited a comment on"
     }
     else if (action == "deleted") {
@@ -301,9 +299,8 @@ var gh_pr_review_comment = async (req) => {
     var comment_html_url = await gitioLookup(req.body["comment"]["html_url"]);
     var comment_type = "commented on";
     if (action == "edited") {
-        comment_type = "edited a comment on"
-
         if (config.get('ignore_edits') == true) return;
+        comment_type = "edited a comment on"
     }
     else if (action == "deleted") {
         comment_type = "deleted a comment on"
@@ -406,17 +403,20 @@ var gh_issues = async (req) => {
         "\x02\x0303" + req.body["issue"]["title"] + "\x03\x02".replace(/[\r\n]/g, " - ").replace(/[\n]/g, " - "));
 
     switch (action) {
-        case "opened":
         case "edited":
+            if (config.get('ignore_edits') == true) return;
+            var build02 = util.format("%s - %s",
+                build01,
+                html_url);
+            res.push(build02);
+            break;
+        case "opened":
         case "transferred":
         case "pinned":
         case "unpinned":
         case "closed":
         case "reopened":
         case "demilestoned":
-
-            if (config.get('ignore_edits') == true && action == "edited") return;
-
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);
@@ -426,6 +426,7 @@ var gh_issues = async (req) => {
             res.push(build01);
             break;
         case "assigned":
+            if (config.get('ignore_assigns') == true) return;
             var build02 = util.format("%s to %s - %s",
                 build01,
                 req.body["assignee"]["login"],
@@ -433,6 +434,7 @@ var gh_issues = async (req) => {
             res.push(build02);
             break;
         case "unassigned":
+            if (config.get('ignore_assigns') == true) return;
             var build02 = util.format("%s from %s - %s",
                 build01,
                 req.body["assignee"]["login"],
@@ -440,6 +442,7 @@ var gh_issues = async (req) => {
             res.push(build02);
             break;
         case "labeled":
+            if (config.get('ignore_labels') == true) return;
             var build02 = util.format("%s (+%s) - %s",
                 build01,
                 req.body["label"]["name"],
@@ -447,6 +450,7 @@ var gh_issues = async (req) => {
             res.push(build02);
             break;
         case "unlabeled":
+            if (config.get('ignore_labels') == true) return;
             var build02 = util.format("%s (-%s) - %s",
                 build01,
                 req.body["label"]["name"],
@@ -526,9 +530,7 @@ var gh_milestone = async (req) => {
         case "edited":
         case "created":
         case "closed":
-
             if (config.get('ignore_edits') == true && action == "edited") return;
-
             var build02 = util.format("%s - %s",
                 build01,
                 await gitioLookup(req.body["milestone"]["html_url"]));
@@ -575,11 +577,15 @@ var gh_pull_request = async(req) => {
         "\x02\x0303" + req.body["pull_request"]["title"] + "\x03\x02".replace(/[\r\n]/g, " - ").replace(/[\n]/g, " - "));
 
     switch (action) {
-        case "opened":
         case "edited":
+            if (config.get('ignore_edits') == true) return;
+            var build02 = util.format("%s - %s",
+                build01,
+                html_url);
+            res.push(build02);
+            break;
+        case "opened":
         case "reopened":
-            if (config.get('ignore_edits') == true && action == "edited") return;
-
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);
@@ -601,6 +607,7 @@ var gh_pull_request = async(req) => {
 
             break;
         case "assigned":
+            if (config.get('ignore_assigns') == true) return;
             var build02 = util.format("%s to %s - %s",
                 build01,
                 req.body["assignee"]["login"],
@@ -608,6 +615,7 @@ var gh_pull_request = async(req) => {
             res.push(build02);
             break;
         case "unassigned":
+            if (config.get('ignore_assigns') == true) return;
             var build02 = util.format("%s from %s - %s",
                 build01,
                 req.body["assignee"]["login"],
@@ -615,6 +623,7 @@ var gh_pull_request = async(req) => {
             res.push(build02);
             break;
         case "labeled":
+            if (config.get('ignore_labels') == true) return;
             var build02 = util.format("%s (+%s) - %s",
                 build01,
                 req.body["label"]["name"],
@@ -622,6 +631,7 @@ var gh_pull_request = async(req) => {
             res.push(build02);
             break;
         case "unlabeled":
+            if (config.get('ignore_labels') == true) return;
             var build02 = util.format("%s (-%s) - %s",
                 build01,
                 req.body["label"]["name"],
