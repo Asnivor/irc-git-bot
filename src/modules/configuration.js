@@ -18,7 +18,8 @@ function Config() {
 
         ignore_edits: false,     // will not post any edits
         ignore_labels : false,  // will not post any label/unlabel events
-        ignore_assigns : false  // will not post any assign/unassign events
+        ignore_assigns : false,  // will not post any assign/unassign events
+        ignore_milestones : false
     });
 }
 

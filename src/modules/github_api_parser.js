@@ -416,7 +416,13 @@ var gh_issues = async (req) => {
         case "unpinned":
         case "closed":
         case "reopened":
+            break;
+            var build02 = util.format("%s - %s",
+                build01,
+                html_url);
+            res.push(build02);
         case "demilestoned":
+            if (config.get('ignore_milestones') == true) return;
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);
@@ -458,9 +464,10 @@ var gh_issues = async (req) => {
             res.push(build02);
             break;
         case "milestoned":
-            var build02 = util.format("%s (-%s) - %s",
+            if (config.get('ignore_milestones') == true) return;
+            var build02 = util.format("%s (%s) - %s",
                 build01,
-                req.body["issue"]["milestone"],
+                req.body["issue"]["milestone"]["title"],
                 html_url);
             res.push(build02);
             break;
@@ -513,6 +520,8 @@ var gh_member = async (req) => {
 
 // https://developer.github.com/v3/activity/events/types/#milestoneevent
 var gh_milestone = async (req) => {
+
+    if (config.get('ignore_milestones') == true) return;
 
     var res = new Array();
 

@@ -1,6 +1,6 @@
 {
   "name": "irc-git-bot",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "An experimental Github IRC bot",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,6 @@
     "log4js": "^4.0.2",
     "nconf": "^0.10.0",
     "node-gitio": "^1.0.0",
-    "simple-git": "^1.107.0",
     "util": "^0.11.1"
   }
 }

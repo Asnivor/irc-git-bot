@@ -12,5 +12,6 @@
     "ignore_edits" : false,
     "ignore_edits" : false,
     "ignore_labels" : false,
-    "ignore_assigns" : false
+    "ignore_assigns" : false,
+    "ignore_milestones" : false
 }
