@@ -416,11 +416,11 @@ var gh_issues = async (req) => {
         case "unpinned":
         case "closed":
         case "reopened":
-            break;
             var build02 = util.format("%s - %s",
                 build01,
                 html_url);
             res.push(build02);
+            break;
         case "demilestoned":
             if (config.get('ignore_milestones') == true) return;
             var build02 = util.format("%s - %s",
