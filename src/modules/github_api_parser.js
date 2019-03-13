@@ -772,6 +772,8 @@ var gh_watch = async (req) => {
 
     var res = new Array();
 
+    if (config.get('ignore_stars') == true) return;
+
     var build01 = util.format("\x02\x0306%s\x03\x02: %s starred the repo! - %s",
         req.body["repository"]["full_name"],
         req.body["sender"]["login"],
